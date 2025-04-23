@@ -3,4 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  root: '.', // use project root as base
+  build: {
+    outDir: 'dist',
+  },
 });
