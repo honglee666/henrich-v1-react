@@ -29,7 +29,17 @@ function App() {
   return (
     <div style={{ fontFamily: 'Arial', padding: '2rem' }}>
       <h1>Henrich V1 模擬平台</h1>
-      <Balance balance={balance} />
+      <Balance
+  balance={(
+    parseFloat(balance) +
+    positions.reduce((acc, pos) => {
+      const direction = pos.direction === 'buy' ? 1 : -1;
+      const pnl = (price - pos.entryPrice) * direction * 100;
+      return acc + pnl;
+    }, 0)
+  ).toFixed(2)}
+/>
+
       <PriceFeed price={price} setPrice={setPrice} />
       <OrderPanel onOrder={handleOrder} />
       <PositionPanel positions={positions} price={price} onClose={handleClose} />
