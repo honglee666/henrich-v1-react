@@ -5,8 +5,9 @@ import OrderPanel from './components/OrderPanel';
 import PositionPanel from './components/PositionPanel';
 
 function App() {
-  const [positions, setPositions] = useState([]);
+  const [balance, setBalance] = useState(10000);
   const [price, setPrice] = useState(1990);
+  const [positions, setPositions] = useState([]);
 
   const handleOrder = (direction) => {
     const newPosition = {
@@ -18,16 +19,20 @@ function App() {
   };
 
   const handleClose = (id) => {
-    setPositions(positions.filter(pos => pos.id !== id));
+    const pos = positions.find(p => p.id === id);
+    const direction = pos.direction === 'buy' ? 1 : -1;
+    const pnl = ((price - pos.entryPrice) * direction * 100).toFixed(2); // 每單合約100倍
+    setBalance(prev => (parseFloat(prev) + parseFloat(pnl)).toFixed(2));
+    setPositions(positions.filter(p => p.id !== id));
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '2rem' }}>
+    <div style={{ fontFamily: 'Arial', padding: '2rem' }}>
       <h1>Henrich V1 模擬平台</h1>
-      <Balance />
+      <Balance balance={balance} />
       <PriceFeed price={price} setPrice={setPrice} />
       <OrderPanel onOrder={handleOrder} />
-      <PositionPanel positions={positions} price={parseFloat(price)} onClose={handleClose} />
+      <PositionPanel positions={positions} price={price} onClose={handleClose} />
     </div>
   );
 }
