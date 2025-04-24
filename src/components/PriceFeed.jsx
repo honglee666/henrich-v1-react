@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-function PriceFeed() {
-  const [price, setPrice] = useState(1990);
-
+function PriceFeed({ price, setPrice }) {
   useEffect(() => {
     const interval = setInterval(() => {
-      setPrice(prev => (parseFloat(prev) + (Math.random() - 0.5)).toFixed(2));
+      const next = parseFloat(price) + (Math.random() * 2 - 1); // 漲跌 -1 ~ +1
+      setPrice(next.toFixed(2));
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [price, setPrice]);
 
   return (
     <div style={{ marginBottom: '1rem' }}>
