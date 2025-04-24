@@ -30,6 +30,7 @@ function App() {
     <div style={{ fontFamily: 'Arial', padding: '2rem' }}>
       <h1>Henrich V1 模擬平台</h1>
       <Balance
+ <Balance
   balance={(
     parseFloat(balance) +
     positions.reduce((acc, pos) => {
@@ -39,6 +40,7 @@ function App() {
     }, 0)
   ).toFixed(2)}
 />
+
 
       <PriceFeed price={price} setPrice={setPrice} />
       <OrderPanel onOrder={handleOrder} />
